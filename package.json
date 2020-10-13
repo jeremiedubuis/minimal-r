@@ -1,0 +1,40 @@
+{
+    "name": "minimal-r",
+    "version": "0.0.0",
+    "description": "A minimal react SSR framework",
+    "main": "index.js",
+    "scripts": {
+        "build": "node bin/minimal-r.js build index.js && rollup -c src/build/rollup.config.js",
+        "watch": "rollup -c src/build/rollup.config.js -w",
+        "start": "node _minimal-r/server/build/server.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/jeremiedubuis/minimal-r.git"
+    },
+    "author": "Jérémie Dubuis",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/jeremiedubuis/minimal-r/issues"
+    },
+    "homepage": "https://github.com/jeremiedubuis/minimal-r#readme",
+    "dependencies": {
+        "polka": "^0.5.2",
+        "react": "^16.13.1",
+        "react-dom": "^16.13.1",
+        "sirv": "^1.0.6"
+    },
+    "devDependencies": {
+        "@rollup/plugin-commonjs": "^15.1.0",
+        "@rollup/plugin-node-resolve": "^9.0.0",
+        "@rollup/plugin-replace": "^2.3.3",
+        "@types/node": "^14.11.8",
+        "@types/react": "^16.9.52",
+        "@types/react-dom": "^16.9.8",
+        "prettier": "^2.1.2",
+        "rimraf": "^3.0.2",
+        "rollup": "^2.29.0",
+        "rollup-plugin-typescript2": "^0.27.3",
+        "typescript": "^4.0.3"
+    }
+}

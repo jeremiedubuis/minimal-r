@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "target": "es5",
+        "outDir": "_minimal-r/server/build",
+        "esModuleInterop": true,
+        "jsx": "react",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "noImplicitAny": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "sourceMap": false
+    },
+    "include": ["src/**/*"],
+    "files": ["src/server.ts"],
+    "exclude": ["node_modules"]
+}
