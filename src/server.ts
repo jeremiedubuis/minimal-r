@@ -9,6 +9,7 @@ import { config } from '../_minimal-r/server/config';
 import { HTML } from './components/HTML';
 import { Router } from './components/Router';
 import { RouterClass } from './components/RouterClass';
+const compression = require('compression');
 
 const handleReact = async (app: any, route: ServerReactRoute) => {
     app.get(route.path, async (req: any, res: ServerResponse) => {
@@ -51,7 +52,7 @@ const handleHandler = async (app: any, route: ServerHandlerRoute) => {
 };
 
 const app = polka();
-
+app.use(compression());
 app.use(sirv(path.join(process.cwd(), '_minimal-r/client')));
 
 for (const route of config.routes as ServerRoute[]) {

@@ -4,7 +4,7 @@
     "description": "A minimal react SSR framework",
     "main": "index.js",
     "scripts": {
-        "build": "node bin/minimal-r.js build index.js && rollup -c src/build/rollup.config.js",
+        "build": "node bin/minimal-r.js build index.js && cross-env NODE_ENV=production rollup -c src/build/rollup.config.js",
         "watch": "rollup -c src/build/rollup.config.js -w",
         "start": "node _minimal-r/server/build/server.js"
     },
@@ -19,6 +19,7 @@
     },
     "homepage": "https://github.com/jeremiedubuis/minimal-r#readme",
     "dependencies": {
+        "compression": "^1.7.4",
         "polka": "^0.5.2",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
@@ -31,9 +32,11 @@
         "@types/node": "^14.11.8",
         "@types/react": "^16.9.52",
         "@types/react-dom": "^16.9.8",
+        "cross-env": "^7.0.2",
         "prettier": "^2.1.2",
         "rimraf": "^3.0.2",
         "rollup": "^2.29.0",
+        "rollup-plugin-terser": "^7.0.2",
         "rollup-plugin-typescript2": "^0.27.3",
         "typescript": "^4.0.3"
     }
