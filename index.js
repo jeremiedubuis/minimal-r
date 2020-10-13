@@ -1,6 +1,7 @@
 module.exports = {
     components: {
-        Head: './components/layout/Head'
+        Head: './components/layout/Head',
+        Content: './components/layout/Content'
     },
     routes: [
         {

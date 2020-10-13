@@ -6,6 +6,7 @@ import type { RouteMatch, LazyComponent, ClientRoute } from '../declarations/dec
 type RouterProps = {
     initialProps: object;
     router: RouterClass;
+    Content: ComponentType;
     global: { firstRender?: boolean };
 };
 
@@ -40,13 +41,18 @@ export class Router extends React.Component<RouterProps, RouterState> {
         const {
             route: { Component }
         } = this.state.match;
+        const { Content } = this.props;
 
         const props = this.state.data || {};
 
         if (typeof window !== 'undefined')
-            return this.renderLazy(Component as LazyComponent, props);
+            return <Content>{this.renderLazy(Component as LazyComponent, props)}</Content>;
         const Comp = Component as ComponentType;
-        return <Comp {...props} />;
+        return (
+            <Content>
+                <Comp {...props} />
+            </Content>
+        );
     }
 
     renderLazy(Component: LazyComponent, props: object) {

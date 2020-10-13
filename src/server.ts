@@ -5,7 +5,7 @@ import { ServerResponse } from 'http';
 import sirv from 'sirv';
 import path from 'path';
 import type { ServerHandlerRoute, ServerReactRoute, ServerRoute } from './declarations/declaration';
-import { config, Head } from '../_minimal-r/config.server';
+import { config, Head, Content } from '../_minimal-r/config.server';
 import { HTML } from './components/HTML';
 import { Router } from './components/Router';
 import { RouterClass } from './components/RouterClass';
@@ -22,6 +22,7 @@ const handleReact = async (app: any, route: ServerReactRoute) => {
             { req, res, initialProps, assets, Head },
             createElement(Router, {
                 initialProps,
+                Content,
                 global: {},
                 router: new RouterClass(
                     (config.routes as ServerRoute[]).filter(

@@ -1,16 +1,5 @@
-import './index.scss';
 import React from 'react';
-import { Link } from '../src/components/Link';
 
-const Index = ({ title }: any) => {
-    return (
-        <div id={'home'}>
-            <h1>{title}</h1>
-            <Link href="/test">Test</Link>
-        </div>
-    );
-};
-
-export const Component = Index;
+export { Home as Component } from '../views/Home/Home';
 
 export const getServerSideProps = () => ({ title: 'Home' });

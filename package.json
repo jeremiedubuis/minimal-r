@@ -5,6 +5,7 @@
     "main": "index.js",
     "scripts": {
         "build:client": "cross-env NODE_ENV=production rollup -c src/build/rollup.client.js",
+        "build:server": "cross-env NODE_ENV=production rollup -c src/build/rollup.server.js",
         "build": "node bin/minimal-r.js build index.js && cross-env NODE_ENV=production rollup -c src/build/rollup.config.js",
         "watch": "rollup -c src/build/rollup.config.js -w",
         "start": "node _minimal-r/server/build/server.js"

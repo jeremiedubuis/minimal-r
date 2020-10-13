@@ -34,15 +34,23 @@ const ReactLazyPreload = (importStatement) => {
 };\n`;
 
 const buildConfig = async (config, projectRoot) => {
+    if (!config.components) config.components = [];
+
     const minimalRPath = path.join(projectRoot, '_minimal-r');
     const minimalRRelativePath = path.relative(minimalRPath, projectRoot);
     createDir(minimalRPath);
 
-    let serverConfigImports = `export { Head } from '${path
-        .join(minimalRRelativePath, config.components.Head)
+    let sharedConfigImports = `export { Content } from '${path
+        .join(minimalRRelativePath, config.components.Content || '/src/components/DefaultContent')
         .replace(/\\/g, '/')}';\n`;
 
-    let clientConfig = `${clientConfigHeader}
+    let serverConfigImports = `${sharedConfigImports}
+export { Head } from '${path
+        .join(minimalRRelativePath, config.components.Head || '../src/components/Content')
+        .replace(/\\/g, '/')}';\n`;
+
+    let clientConfig = `${sharedConfigImports}
+${clientConfigHeader}
 
 export const config = {
     routes: [
