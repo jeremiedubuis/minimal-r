@@ -9,10 +9,10 @@
         "moduleResolution": "node",
         "noImplicitAny": true,
         "removeComments": true,
+        "resolveJsonModule": true,
         "preserveConstEnums": true,
         "sourceMap": false
     },
     "include": ["src/**/*"],
-    "files": ["src/server.ts"],
     "exclude": ["node_modules"]
 }

@@ -1,9 +1,14 @@
-const path = require('path');
-const typescript = require('rollup-plugin-typescript2');
-const commonjs = require('@rollup/plugin-commonjs');
-const { nodeResolve } = require('@rollup/plugin-node-resolve');
-const replace = require('@rollup/plugin-replace');
-const { terser } = require('rollup-plugin-terser');
+import path from 'path';
+import typescript from 'rollup-plugin-typescript2';
+import commonjs from '@rollup/plugin-commonjs';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
+import replace from '@rollup/plugin-replace';
+import { terser } from 'rollup-plugin-terser';
+import rimraf from 'rimraf';
+import postcss from 'rollup-plugin-postcss';
+import assets from './rollup/assets';
+
+rimraf.sync(path.join(__dirname, '../../_minimal-r/client'));
 
 const plugins = [
     replace({
@@ -23,11 +28,16 @@ const plugins = [
             include: ['**/*'],
             files: ['src/client.tsx']
         }
-    })
+    }),
+    postcss({
+        extract: true
+    }),
+    assets()
 ];
+
 if (process.env.NODE_ENV === 'production') plugins.push(terser());
 
-module.exports = {
+export default {
     input: path.join(__dirname, '../client.tsx'),
     output: {
         dir: path.join(__dirname, '../../_minimal-r/client/build'),

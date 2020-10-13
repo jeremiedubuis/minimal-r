@@ -5,10 +5,11 @@ import { ServerResponse } from 'http';
 import sirv from 'sirv';
 import path from 'path';
 import type { ServerHandlerRoute, ServerReactRoute, ServerRoute } from './declarations/declaration';
-import { config } from '../_minimal-r/server/config';
+import { config, Head } from '../_minimal-r/config.server';
 import { HTML } from './components/HTML';
 import { Router } from './components/Router';
 import { RouterClass } from './components/RouterClass';
+import assets from '../_minimal-r/assets.json';
 const compression = require('compression');
 
 const handleReact = async (app: any, route: ServerReactRoute) => {
@@ -18,7 +19,7 @@ const handleReact = async (app: any, route: ServerReactRoute) => {
             initialProps = await route.getServerSideProps(req, res);
         const el = createElement(
             HTML,
-            { req, res, initialProps },
+            { req, res, initialProps, assets, Head },
             createElement(Router, {
                 initialProps,
                 global: {},
@@ -44,7 +45,6 @@ const handleReact = async (app: any, route: ServerReactRoute) => {
 
 const handleHandler = async (app: any, route: ServerHandlerRoute) => {
     const r = route.handler;
-    console.log(route.path, r);
     if (r.get) app.get(route.path, r.get);
     if (r.post) app.post(route.path, r.post);
     if (r.put) app.put(route.path, r.put);

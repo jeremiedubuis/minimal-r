@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { config, global } from '../_minimal-r/client/config';
+import { config, global } from '../_minimal-r/config.client';
 import { Router } from './components/Router';
 import { RouterClass } from './components/RouterClass';
 import type { LazyComponent } from './declarations/declaration';

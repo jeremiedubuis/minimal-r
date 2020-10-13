@@ -21,14 +21,7 @@ const buildClientSideDynamicImportModule = (
     );
 };
 
-const buildConfig = async (config, projectRoot) => {
-    const minimalRPath = path.join(projectRoot, '_minimal-r');
-    createDir(minimalRPath);
-
-    let serverConfigImports = '';
-
-    let clientConfig = `
-import React, { useState, useEffect } from 'react';
+const clientConfigHeader = `import React from 'react';
 export const global = { firstRender: true };
 const ReactLazyPreload = (importStatement) => {
     const Component = React.lazy(importStatement);
@@ -38,7 +31,18 @@ const ReactLazyPreload = (importStatement) => {
         Component.preloadedResult = r.default;
     };
     return Component;
-};
+};\n`;
+
+const buildConfig = async (config, projectRoot) => {
+    const minimalRPath = path.join(projectRoot, '_minimal-r');
+    const minimalRRelativePath = path.relative(minimalRPath, projectRoot);
+    createDir(minimalRPath);
+
+    let serverConfigImports = `export { Head } from '${path
+        .join(minimalRRelativePath, config.components.Head)
+        .replace(/\\/g, '/')}';\n`;
+
+    let clientConfig = `${clientConfigHeader}
 
 export const config = {
     routes: [
@@ -47,8 +51,6 @@ export const config = {
     routes: [
 `;
 
-    const relativePath = path.relative(__dirname, projectRoot);
-    const minimalRRelativePath = path.relative(minimalRPath, projectRoot);
     config.routes.forEach((route, i) => {
         if (i > 0) {
             if (route.type === 'react') clientConfig += ',\n';
@@ -56,7 +58,7 @@ export const config = {
         }
 
         serverConfigImports += `import * as Route${i} from '${path
-            .join(relativePath, route.handler)
+            .join(minimalRRelativePath, route.handler)
             .replace(/\\/g, '/')}';\n`;
 
         if (route.type === 'react') {
@@ -64,7 +66,7 @@ export const config = {
             buildClientSideDynamicImportModule(projectRoot, dynamicImportModuleName, route.handler);
             clientConfig += `   {
         path: '${route.path}',
-        Component: ReactLazyPreload(() => import('${minimalRRelativePath}/handlers/${dynamicImportModuleName}')),
+        Component: ReactLazyPreload(() => import('./handlers/${dynamicImportModuleName}')),
         useServerSideProps: ${(route.useServerSideProps || false).toString()}
     }`;
             serverConfig += `   {
@@ -88,12 +90,8 @@ export const config = {
    ]
 };`;
 
-    createFileInDir(path.join(minimalRPath, 'client'), 'config.js', clientConfig);
-    createFileInDir(
-        path.join(minimalRPath, 'server'),
-        'config.js',
-        `${serverConfigImports}\n${serverConfig}`
-    );
+    createFileInDir(minimalRPath, 'config.client.js', clientConfig);
+    createFileInDir(minimalRPath, 'config.server.js', `${serverConfigImports}\n${serverConfig}`);
 };
 
 module.exports = { buildConfig };
